@@ -1,10 +1,12 @@
 #include <stdio.h>
-#include "table-utils.c"
-//#include "wordlist.h"
+#include "main.h"
+#include "table/table-utils.c"
+#include "tree/tree.c"
+#include "tree-utils.c"
 
 char weights[25][25];
 
-int diff2words(const char *a, const char *b) {
+uint diff2words(const char *a, const char *b) {
 	int res = 0;
 	while (*a && *b) {
 		res += weights[*a - 97][*b - 97];
@@ -15,7 +17,7 @@ int diff2words(const char *a, const char *b) {
 
 int main() {
 	create_table(weights);
-	int res = diff2words("hello", "helll");
-	printf("%d\n", res);
+	uint res = diff2words("hello", "helll");
+	printf("%u\n", res);
 	return 0;
 }

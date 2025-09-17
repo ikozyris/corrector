@@ -2,11 +2,12 @@
 #include "tree.c"
 #include <assert.h>
 
-const char *wordlist[] = {"heat", "head", "hope"};
-const uint len[] = {4, 4, 4, 4};
-
 int main() {
-	build_branch(wordlist, len, 3, 0, 0);
+	const char *wordlist[] = {"heat", "head", "hope"};
+	const uint len[] = {4, 4, 4, 4};
+	u8 array[32];
+
+	build_branch(wordlist, len, array, 3, 0, 0);
 	puts("\n Array built ");
 	assert(search(array, "heat"));
 	assert(search(array, "head"));

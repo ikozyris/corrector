@@ -1,7 +1,5 @@
 #include "../main.h"
 
-u8 array[1024];
-
 ulong count_unique(const char *words[], const uint *lenghts, uint n, uint from)
 {
 	char target = words[0][from];
@@ -40,7 +38,7 @@ a:
 	return create_pair(cur + 1 - from, unique);
 }
 
-ulong build_branch(const char *words[], const uint *lens, uint n, uint ari, uint wdi) 
+ulong build_branch(const char *words[], const uint *lens, u8 *out, uint n, uint ari, uint wdi) 
 {
 	ulong lc_pair = count_unique(words, lens, n, wdi);
 	uint len, cnt, done = 0;
@@ -53,12 +51,12 @@ ulong build_branch(const char *words[], const uint *lens, uint n, uint ari, uint
 		done++;
 		sum_ari = 1;
 	}
-	memcpy(array + ari, words[0] + wdi, len);
-	array[ari + len] = cnt;
+	memcpy(out + ari, words[0] + wdi, len);
+	out[ari + len] = cnt;
 	sum_ari += ari + len + cnt;
 	for (uint i = 0; i < cnt; ++i) {
-		array[ari + len + i] = sum_ari - ari - len - i;
-		ulong ari_done_pair = build_branch(words + done, lens + done, n - done, sum_ari, wdi + len);
+		out[ari + len + i] = sum_ari - ari - len - i;
+		ulong ari_done_pair = build_branch(words + done, lens + done, out, n - done, sum_ari, wdi + len);
 		uint tmp_done;
 		extract_pair(ari_done_pair, &sum_ari, &tmp_done);
 		done += tmp_done;
