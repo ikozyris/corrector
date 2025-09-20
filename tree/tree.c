@@ -1,14 +1,20 @@
 #include "../main.h"
 
-ulong count_unique(const char *words[], const uint *lenghts, uint n, uint from)
+void copy_woff(u8 *dest, const char *src, uint size, uint off)
 {
-	char target = words[0][from];
+	for (uint i = 0; i < size; ++i)
+		dest[i] = src[i] + off;
+}
+
+ulong count_unique(const char *words[], const uint *lens, uint n, uint from)
+{
+	u8 target = words[0][from];
 	uint end = 0;
 	uint pr_end = 0;
 
 	// find count of all matches
-	for (uint i = 0; i < n; ++i)
-		if (lenghts[i] > from && words[i][from] == target)
+	for (uint i = 0; i <= n; ++i)
+		if (lens[i] > from && words[i][from] == target)
 			end = i;
 
 	// extend len if possible
@@ -16,7 +22,7 @@ ulong count_unique(const char *words[], const uint *lenghts, uint n, uint from)
 	do {
 		target = words[0][cur + 1];
 		for (uint i = 0; i <= end; ++i) {
-			if (lenghts[i] < cur + 1 || words[i][cur + 1] != target)
+			if (lens[i] < cur + 1 || words[i][cur + 1] != target)
 				goto a;
 		}
 		cur++;
@@ -28,9 +34,9 @@ a:
 	u8 seen[256] = {};
 	uint unique = 0;
 	for (uint i = 0; i <= end; ++i) {
-		if (lenghts[i] < cur)
+		if (lens[i] < cur)
 			continue;
-		unsigned char ch = words[i][cur + 1];
+		u8 ch = words[i][cur + 1];
 		if (!seen[ch] && ch != 0)
 			unique++;
 		seen[ch] = 1;
@@ -38,7 +44,7 @@ a:
 	return create_pair(cur + 1 - from, unique);
 }
 
-ulong build_branch(const char *words[], const uint *lens, u8 *out, uint n, uint ari, uint wdi) 
+ulong build_branch(const char* words[], const uint *lens, u8 *out, uint n, uint ari, uint wdi) 
 {
 	ulong lc_pair = count_unique(words, lens, n, wdi);
 	uint len, cnt, done = 0;
@@ -51,7 +57,8 @@ ulong build_branch(const char *words[], const uint *lens, u8 *out, uint n, uint 
 		done++;
 		sum_ari = 1;
 	}
-	memcpy(out + ari, words[0] + wdi, len);
+	copy_woff(out +ari, words[0] + wdi, len, 133);
+	//memcpy(out + ari, words[0] + wdi, len);
 	out[ari + len] = cnt;
 	sum_ari += ari + len + cnt;
 	for (uint i = 0; i < cnt; ++i) {

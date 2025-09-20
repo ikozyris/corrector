@@ -3,21 +3,23 @@
 #include <assert.h>
 
 int main() {
-	const char *wordlist[] = {"heat", "head", "hope"};
-	const uint len[] = {4, 4, 4, 4};
+	u8 *wordlist[] = {"heat", "head", "hopefully", "hope"};
+	const uint len[] = {4, 4, 9, 4, 0};
+
 	u8 array[32];
+	u8 tmp[32];
 
 	build_branch(wordlist, len, array, 3, 0, 0);
 	puts("\n Array built ");
-	assert(search(array, "heat"));
-	assert(search(array, "head"));
-	assert(search(array, "hope"));
-	assert(!search(array, "hopefully"));
-	assert(!search(array, "hopeless"));
-	assert(!search(array, "hopes"));
-	assert(!search(array, "hea"));
-	assert(!search(array, "heading"));
-	assert(!search(array, "hello"));
-	assert(!search(array, "h"));
+	assert(search_s(array, "heat", tmp));
+	assert(search_s(array, "head", tmp));
+	assert(search_s(array, "hope", tmp));
+	assert(search_s(array, "hopefully", tmp));
+	assert(!search_s(array, "hopeless", tmp));
+	assert(!search_s(array, "hopes", tmp));
+	assert(!search_s(array, "hea", tmp));
+	assert(!search_s(array, "heading", tmp));
+	assert(!search_s(array, "hello", tmp));
+	assert(!search_s(array, "h", tmp));
 }
 

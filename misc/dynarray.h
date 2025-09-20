@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 
-typedef char u8;
+typedef unsigned char u8;
 typedef unsigned uint;
 typedef unsigned long ulong;
 
