@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include "main.h"
-#include "table/table-utils.c"
-#include "tree/tree.c"
-#include "tree-utils.c"
+#include "../main.h"
+#include "table-utils.c"
 
 char weights[25][25];
 
