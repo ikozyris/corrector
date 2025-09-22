@@ -1,13 +1,13 @@
 # Static compressed prefix tree in array
 
 I was looking for an elegant way to store a static compressed prefix tree, but every implementation used a lot of extra (fragmented) memory through pointers. So, I created a simple format to store this tree in a single array.
-My implementation is superior compared to others found online due to:
+This implementation is superior compared to others found online due to:
  - Great cache locality
  - No memory fragmentation
  - Less memory usage than a static array of strings (actual compression)
  - Simple code
 
-It's impressive that its real-world memory usage is <= the sum of lengths of every string, which means, you get faster search, while also using less memory.
+It's impressive that its real-world memory usage is <= the sum of lengths of each string, which means, faster search and less memory.
 
 ## How does it work?
 
@@ -23,7 +23,7 @@ So, why don't we store everything in a single array, and each pointer will be an
 This is really simple to work on, to search for "heat":
  - compare characters until element in array is not a character
  - iterate through children, until we find one that starts we the next letter of the word
- - repeat until either one is 0 (or 1, see below)
+ - repeat until either index (in word or array) is 0 (or 1 for array, see below)
 
 You might wonder, what happens if a word is a prefix of another word (e.g hope and hopefully)?
 
@@ -45,4 +45,4 @@ A normal string comparison doesn't take into account that letters close in the k
 So, the `table/` directory has a simple algorithm that creates a 26x26 2d array, that maps each letter's penalty to another letter.
 For example, `w` and `s` have a (manhattan) distance of 1, whereas `q` and `r` are 2 keys apart, thus much less likely be swapped when typing.
 
-However this is flawed in the case the 2 strings don't have equal length (such as when a key wasn't pressed), but this issue can be mitigated by doing 2 comparisons, one from the start, and one from the end.
+However, this is flawed; when the 2 strings don't have equal length (such as when a key wasn't pressed), but this issue can be mitigated by doing 2 comparisons, one from the start, and one from the end.
